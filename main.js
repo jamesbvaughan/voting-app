@@ -97,4 +97,4 @@ app.get('/logout', (req, res) => {
 
 app.use((req, res) => res.status(404).render('404'))
 
-app.listen(4000, () => console.log('rush app running on port 4000.'))
+app.listen(4000, () => console.log('voting app running on port 4000.'))
