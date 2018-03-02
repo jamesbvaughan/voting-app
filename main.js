@@ -3,14 +3,12 @@ const express = require('express')
 const session = require('express-session')
 const db = require('./database.js')
 const slack = require('./slack.js')
-const { ensureAdmin, ensureAuthenticated } = require('./accessControl.js')
+const { ensureAdmin, ensureAuthenticated } = require('./middlewares.js')
+const { stringSort } = require('./helpers.js')
 const app = express()
 
 
-const stringSort = list =>
-  list.sort((a, b) =>
-    a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }))
-
+// Session Setup ==============================================================
 const sessionSettings = {
   secret: process.env.SESSION_SECRET,
   cookie: {},
@@ -23,6 +21,8 @@ if (app.get('env') === 'production') {
   sessionSettings.cookie.secure = true
 }
 
+
+// Middleware Setup ===========================================================
 app.use(session(sessionSettings))
 
 app.use('/users*', ensureAdmin)
@@ -34,12 +34,14 @@ app.use((req, res, next) => {
   next()
 })
 
-
-// Express server code ========================================================
-app.set('view engine', 'pug')
-
 app.use(express.static('public'))
 
+
+// Express setup ==============================================================
+app.set('view engine', 'pug')
+
+
+// Routes =====================================================================
 app.get('/', (req, res) => {
   res.render('index', { slack_auth_uri: slack.authURI })
 })
@@ -69,25 +71,25 @@ app.get('/users', (req, res) => {
   db.listUsers(users => res.render('users', { users: stringSort(users) }))
 })
 
+app.get('/users/:_id/set-vote-weight', (req, res) => {
+  const { vote_weight } = req.query
+  db.updateUser(req.params._id, { $set: { vote_weight } }, () => {
+    res.redirect('/users')
+  })
+})
+
 app.get('/applicants', (req, res) => {
   db.listApplicants(applicants => {
     res.render('applicants', { applicants: stringSort(applicants) })
   })
 })
 
-app.get('/applicants/:_id/remove', (req, res) => {
-  db.removeApplicant(req.params._id, () => res.redirect('/applicants'))
-})
-
 app.get('/applicants/add', (req, res) => {
   db.addApplicant({ name: req.query.name }, err => res.redirect('/applicants'))
 })
 
-app.get('/users/:_id/set-vote-weight', (req, res) => {
-  const { vote_weight } = req.query
-  db.updateUser(req.params._id, { $set: { vote_weight } }, () => {
-    res.redirect('/users')
-  })
+app.get('/applicants/:_id/remove', (req, res) => {
+  db.removeApplicant(req.params._id, () => res.redirect('/applicants'))
 })
 
 app.get('/logout', (req, res) => {
@@ -96,5 +98,6 @@ app.get('/logout', (req, res) => {
 })
 
 app.use((req, res) => res.status(404).render('404'))
+
 
 app.listen(4000, () => console.log('voting app running on port 4000.'))
