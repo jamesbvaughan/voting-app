@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h2 Users
+  ul
+    each user in users
+      li
+        span= user.name
+        form(action=`/users/${user._id}/set-vote-weight`)
+          | Vote weight:
+          input(name="vote_weight", value=user.vote_weight)
+          input(type="submit", value="update")

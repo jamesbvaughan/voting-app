@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h2 Applicants
+  ul
+    each applicant in applicants
+      li
+        span= applicant.name
+        form(action=`/applicants/${applicant._id}/remove`)
+          input(type="submit", value="Remove")
+  form(action=`/applicants/add`)
+    | Name:
+    input(name="name")
+    input(type="submit", value="Add")
+

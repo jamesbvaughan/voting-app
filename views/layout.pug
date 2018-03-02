@@ -1,0 +1,24 @@
+- var appTitle = "Rush App"
+
+doctype html
+html
+  head
+    title= appTitle
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    link(rel="stylesheet", href="/css/main.css")
+  body
+    h1= appTitle
+    if current_user
+      span Signed in as #{current_user.name}
+    ul
+      li
+        a(href="/") home
+      if current_user
+        li
+          a(href="/users") user list
+        li
+          a(href="/applicants") applicant list
+        li
+          a(href="/logout") logout
+    hr
+    block content

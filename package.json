@@ -1,0 +1,20 @@
+{
+  "name": "rush-app",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "nodemon main.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^5.0.1",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "nedb": "^1.8.0",
+    "node-fetch": "^2.0.0",
+    "pug": "^2.0.0-rc.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.1"
+  }
+}
