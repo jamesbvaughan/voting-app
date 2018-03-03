@@ -4,6 +4,7 @@ class Database {
   constructor() {
     this.users = new Datastore({ filename: 'users.db', autoload: true })
     this.applicants = new Datastore({ filename: 'applicants.db', autoload: true })
+    this.votes = new Datastore({ filename: 'votes.db', autoload: true })
 
     this.users.ensureIndex({
       fieldName: 'slack_user_id',
@@ -56,6 +57,15 @@ class Database {
 
   listApplicants(callback) {
     this.applicants.find({}, this.callbackWrapper(callback))
+  }
+
+  addVote(active_id, applicant_id, vote, callback) {
+    this.votes.insert({
+      active_id,
+      applicant_id,
+      combined_id: active_id + applicant_id,
+      vote,
+    }, this.callbackWrapper(callback))
   }
 }
 
