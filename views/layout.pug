@@ -1,4 +1,4 @@
-- var appTitle = "Rush App"
+- var appTitle = "Voting App"
 
 doctype html
 html
@@ -8,12 +8,12 @@ html
     link(rel="stylesheet", href="/css/main.css")
   body
     h1= appTitle
-    if current_user
-      span Signed in as #{current_user.name}
+    if currentUser
+      span Signed in as #{currentUser.name}
     ul
       li
         a(href="/") home
-      if current_user
+      if currentUser
         li
           a(href="/users") user list
         li

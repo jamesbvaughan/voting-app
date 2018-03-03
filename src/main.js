@@ -8,6 +8,8 @@ const { stringSort } = require('./helpers.js')
 const app = express()
 
 
+currentApplicant = null
+
 // Session Setup ==============================================================
 const sessionSettings = {
   secret: process.env.SESSION_SECRET,
@@ -30,7 +32,8 @@ app.use('/applicants*', ensureAdmin)
 app.use('/app*', ensureAuthenticated)
 
 app.use((req, res, next) => {
-  res.locals.current_user = req.session.current_user
+  res.locals.currentUser = req.session.currentUser
+  res.locals.currentApplicant = currentApplicant
   next()
 })
 
@@ -43,7 +46,12 @@ app.set('view engine', 'pug')
 
 // Routes =====================================================================
 app.get('/', (req, res) => {
-  res.render('index', { slack_auth_uri: slack.authURI })
+  db.findVote(req.session.currentUser, currentApplicant, currentVote => {
+    res.render('index', {
+      slackAuthURI: slack.authURI,
+      currentVote,
+    })
+  })
 })
 
 app.get('/slack-callback', (req, res) => {
@@ -61,7 +69,7 @@ app.get('/slack-callback', (req, res) => {
         db.addUser(user)
       }
 
-      req.session.current_user = user
+      req.session.currentUser = user
       res.redirect('/')
     })
   })
@@ -80,7 +88,12 @@ app.get('/users/:_id/set-vote-weight', (req, res) => {
 
 app.get('/applicants', (req, res) => {
   db.listApplicants(applicants => {
-    res.render('applicants', { applicants: stringSort(applicants) })
+    db.listUsers(actives => {
+      res.render('applicants', {
+        applicants: stringSort(applicants),
+        nActives: actives.length,
+      })
+    })
   })
 })
 
@@ -89,15 +102,32 @@ app.get('/applicants/add', (req, res) => {
 })
 
 app.get('/applicants/:_id/remove', (req, res) => {
+  if (req.params._id === currentApplicant._id) {
+    currentApplicant = null
+  }
   db.removeApplicant(req.params._id, () => res.redirect('/applicants'))
 })
 
+app.get('/applicants/:_id/set-current', (req, res) => {
+  db.findApplicant(req.params._id, applicant => {
+    currentApplicant = applicant
+    res.redirect('/applicants')
+  })
+})
+
+app.get('/vote', (req, res) => {
+  const { applicant_id, vote } = req.query
+  db.addVote(req.session.currentUser._id, applicant_id, vote, () => {
+    res.redirect('/')
+  })
+})
+
 app.get('/logout', (req, res) => {
-  req.session.current_user = null
+  req.session.currentUser = null
   res.redirect('/')
 })
 
 app.use((req, res) => res.status(404).render('404'))
 
 
-app.listen(4000, () => console.log('voting app running on port 4000.'))
+app.listen(4000, () => console.log('voting app running on http://localhost:4000.'))

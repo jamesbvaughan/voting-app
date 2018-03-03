@@ -1,11 +1,11 @@
 module.exports = {
   ensureAuthenticated: (req, res, next) =>
-    req.session.current_user
+    req.session.currentUser
       ? next()
       : res.redirect('/'),
 
   ensureAdmin: (req, res, next) =>
-    req.session.current_user && req.session.current_user.is_admin
+    req.session.currentUser && req.session.currentUser.is_admin
       ? next()
       : res.redirect('/')
 }

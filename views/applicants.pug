@@ -5,9 +5,19 @@ block content
   ul
     each applicant in applicants
       li
-        span= applicant.name
+        span
+          span= applicant.name
+          if applicant.candidacyScore
+            span (#{applicant.candidacyScore}, #{applicant.nVotes}/#{nActives} voted)
+          else
+            span (No votes yet)
         form(action=`/applicants/${applicant._id}/remove`)
           input(type="submit", value="Remove")
+        if currentApplicant && (applicant._id === currentApplicant._id)
+          button(disabled="true") Current Applicant
+        else 
+          form(action=`/applicants/${applicant._id}/set-current`)
+            input(type="submit", value="Set as Current Applicant")
   form(action=`/applicants/add`)
     | Name:
     input(name="name")
