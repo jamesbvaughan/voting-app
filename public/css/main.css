@@ -1,0 +1,113 @@
+* {
+  font-family: 'Roboto', sans-serif;
+  color: #222f3e
+}
+
+body {
+  margin: 0;
+  background-color: #f1f2f6;
+}
+
+h1 {
+  margin: 0;
+  padding: 0.5em 1em;
+}
+
+.header {
+  background-color: #2bcbba;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.signed-in-id {
+  padding: 1.5em;
+}
+
+.links {
+  display: flex;
+  flex-direction: row;
+  padding: 0.5em 0em;
+}
+
+.header li {
+  padding: 1em;
+}
+
+h2 {
+  font-size: 40px;
+}
+
+li {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+.content {
+  padding: 1em 2em;
+}
+
+.input-buttons {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.input-buttons input {
+  font-size: 40px;
+  border-radius: 4px;
+  width: 3em;
+  margin: 0.5em;
+  border: none;
+}
+
+.input-buttons input:hover {
+  background-color: #F8EFBA;
+}
+
+
+
+.header li a {
+  position: relative;
+  display: block;
+}
+
+.header li a:before, .header li a:after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  top: 100%;
+  margin-top: -0.5px;
+  background: #f7b731;
+}
+
+.header li a:before {
+  left: -2.5px;
+}
+.header li a:after {
+  right: 2.5px;
+  background: #f7b731;
+  transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.header li a:hover:before {
+  background: #f7b731;
+  width: 100%;
+  transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.header li a:hover:after {
+  background: transparent;
+  width: 100%;
+  transition: 0s;
+}
+
+.users {
+  font-size: 24px;
+}

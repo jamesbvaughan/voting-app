@@ -1,24 +1,30 @@
 extends layout
 
 block content
-  if currentUser
-    if currentApplicant
-      h2 We're currently voting on #{currentApplicant.name}.
-      if currentVote
-        h3 Your vote for #{currentApplicant.name} is #{currentVote.vote}.
-      else
-        h3 You have not voted for #{currentApplicant.name}.
-      for vote in [1, 2, 3, 4, 5]
-        form(action=`/vote`)
-          input(hidden="true", name="applicant_id", value=currentApplicant._id)
-          input(hidden="true", name="vote", value=vote)
-          input(type="submit", value=vote)
-  else
-    a(href=slackAuthURI)
-      img(
-        alt="Sign in with Slack",
-        height="40",
-        width="172",
-        src="https://platform.slack-edge.com/img/sign_in_with_slack.png",
-        srcset="https://platform.slack-edge.com/img/sign_in_with_slack.png 1x, https://platform.slack-edge.com/img/sign_in_with_slack@2x.png 2x"
-      )
+  div(class="content")
+    if currentUser
+      if currentApplicant
+        h2 We're currently voting on 
+          span(style="color: #0fb9b1") #{currentApplicant.name}
+          span .
+        if currentVote
+          h3 Your vote for #{currentApplicant.name} is 
+            span(style="color: #0fb9b1") #{currentVote.vote}
+            span .
+        else
+          h3 You have not voted for #{currentApplicant.name}.
+        div(class="input-buttons")
+          for vote in [1, 2, 3, 4, 5]
+            form(action=`/vote`)
+              input(hidden="true", name="applicant_id", value=currentApplicant._id)
+              input(hidden="true", name="vote", value=vote)
+              input(type="submit", value=vote)
+    else
+      a(href=slackAuthURI)
+        img(
+          alt="Sign in with Slack",
+          height="40",
+          width="172",
+          src="https://platform.slack-edge.com/img/sign_in_with_slack.png",
+          srcset="https://platform.slack-edge.com/img/sign_in_with_slack.png 1x, https://platform.slack-edge.com/img/sign_in_with_slack@2x.png 2x"
+        )

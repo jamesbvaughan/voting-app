@@ -3,23 +3,24 @@
 doctype html
 html
   head
+    link(href="https://fonts.googleapis.com/css?family=Roboto", rel="stylesheet")
     title= appTitle
     meta(name="viewport", content="width=device-width, initial-scale=1")
     link(rel="stylesheet", href="/css/main.css")
   body
-    h1= appTitle
-    if currentUser
-      span Signed in as #{currentUser.name}
-    ul
-      li
-        a(href="/") home
+    div(class="header")
+      h1= appTitle
       if currentUser
-        if currentUser.is_admin
+        span(class="signed-in-id") Signed in as #{currentUser.name}
+        span(class="links")
           li
-            a(href="/users") user list
-          li
-            a(href="/applicants") applicant list
-        li
-          a(href="/logout") logout
-    hr
+            a(href="/") Home
+          if currentUser
+            if currentUser.is_admin
+              li
+                a(href="/users") User List
+              li
+                a(href="/applicants") Applicant List
+            li
+              a(href="/logout") Logout
     block content
