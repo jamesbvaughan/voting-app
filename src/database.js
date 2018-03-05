@@ -30,7 +30,7 @@ class Database {
   }
 
   addUser(user, callback) {
-    this.applicants.insert(user, this.callbackWrapper(callback))
+    this.users.insert(user, this.callbackWrapper(callback))
   }
 
   listUsers(callback) {
