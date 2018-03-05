@@ -14,12 +14,12 @@ html
       li
         a(href="/") home
       if currentUser
-        li
-          a(href="/users") user list
         if currentUser.is_admin
           li
-            a(href="/applicants") applicant list
+            a(href="/users") user list
           li
-            a(href="/logout") logout
+            a(href="/applicants") applicant list
+        li
+          a(href="/logout") logout
     hr
     block content
