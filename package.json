@@ -11,6 +11,7 @@
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "nedb": "^1.8.0",
+    "nedb-session-store": "^1.1.2",
     "node-fetch": "^2.0.0",
     "pug": "^2.0.0-rc.4"
   },

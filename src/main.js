@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const session = require('express-session')
+const NedbStore = require('nedb-session-store')(session)
 const db = require('./database.js')
 const slack = require('./slack.js')
 const { ensureAdmin, ensureAuthenticated } = require('./middlewares.js')
@@ -16,6 +17,7 @@ const sessionSettings = {
   cookie: {},
   resave: false,
   saveUninitialized: false,
+  store: new NedbStore({ filename: 'session.db' }),
 }
 
 if (app.get('env') === 'production') {
