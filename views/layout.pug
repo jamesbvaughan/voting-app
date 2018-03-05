@@ -16,9 +16,10 @@ html
       if currentUser
         li
           a(href="/users") user list
-        li
-          a(href="/applicants") applicant list
-        li
-          a(href="/logout") logout
+        if currentUser.is_admin
+          li
+            a(href="/applicants") applicant list
+          li
+            a(href="/logout") logout
     hr
     block content
