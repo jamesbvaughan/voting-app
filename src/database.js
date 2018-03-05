@@ -55,7 +55,7 @@ class Database {
 
   listApplicants(callback) {
     this.applicants.find({}, (err, applicants) => {
-      this.users.find({ vote_weight: { $gt: 0 } }, (err, actives) => {
+      this.users.find({}, (err, actives) => {
         this.votes.find({}, (err, votes) => {
           callback(applicants.map(applicant => {
             let sumVotes = 0
