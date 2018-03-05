@@ -9,7 +9,9 @@ const { stringSort } = require('./helpers.js')
 const app = express()
 
 
+// Globals ====================================================================
 currentApplicant = null
+
 
 // Session Setup ==============================================================
 const sessionSettings = {
