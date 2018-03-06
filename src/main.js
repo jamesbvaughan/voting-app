@@ -1,7 +1,10 @@
 require('dotenv').config()
 const express = require('express')
 const session = require('express-session')
+const fs = require('fs')
 const NedbStore = require('nedb-session-store')(session)
+const Jimp = require('jimp')
+const fileUpload = require('express-fileupload')
 const db = require('./database.js')
 const slack = require('./slack.js')
 const { ensureAdmin, ensureAuthenticated } = require('./middlewares.js')
@@ -10,7 +13,7 @@ const app = express()
 
 
 // Globals ====================================================================
-currentApplicant = null
+let currentApplicant = null
 
 
 // Session Setup ==============================================================
@@ -42,6 +45,8 @@ app.use((req, res, next) => {
 })
 
 app.use(express.static('public'))
+
+app.use(fileUpload())
 
 
 // Express setup ==============================================================
@@ -119,6 +124,34 @@ app.get('/applicants/:_id/set-current', (req, res) => {
   })
 })
 
+app.post('/applicants/:_id/upload-photo', (req, res) => {
+  if (!req.files) {
+    return res.status(400).send('You need to select a photo to upload.')
+  }
+
+  const fileExtension = req.files.photo.name.match(/\.(jpe?g|png|gif)$/i)
+  if (!fileExtension) {
+    return res.status(400).send('You can only use jpg, png, and gif filetypes.')
+  }
+
+  const tmpPath = `public/applicant-photos/tmp.${fileExtension[1]}`
+  req.files.photo.mv(tmpPath, err => {
+    if (err) {
+      res.status(500).send(err)
+    } else {
+      Jimp.read(tmpPath, (err, photo) => {
+        if (err) {
+          res.status(500).send(err)
+        }
+
+        photo.quality(60).write(`public/applicant-photos/${req.params._id}.jpg`)
+
+        res.redirect('/applicants')
+      })
+    }
+  })
+})
+
 app.get('/vote', (req, res) => {
   const { applicant_id, vote } = req.query
   db.addVote(req.session.currentUser._id, applicant_id, vote, () => {
@@ -133,5 +166,8 @@ app.get('/logout', (req, res) => {
 
 app.use((req, res) => res.status(404).render('404'))
 
+if (!fs.existsSync('public/applicant-photos')) {
+  fs.mkdirSync('public/applicant-photos')
+}
 
 app.listen(4000, () => console.log('voting app running on http://localhost:4000.'))

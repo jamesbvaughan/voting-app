@@ -12,6 +12,7 @@ block content
               span &nbsp;&nbsp; (#{applicant.candidacyScore}, #{applicant.nVotes}/#{nActives} voted)
             else
               span &nbsp;&nbsp; (No votes yet)
+          img(src=`/applicant-photos/${applicant._id}.jpg`, height=200)
           form(action=`/applicants/${applicant._id}/remove`)
             input(type="submit", value="Remove")
           if currentApplicant && (applicant._id === currentApplicant._id)
@@ -19,6 +20,9 @@ block content
           else 
             form(action=`/applicants/${applicant._id}/set-current`)
               input(type="submit", value="Set as Current Applicant")
+          form(method="post", enctype="multipart/form-data", accept="image/*", action=`/applicants/${applicant._id}/upload-photo`)
+            input(type="file", name="photo")
+            input(type="submit", value="Upload Photo")
     form(action=`/applicants/add`)
       | Name:
       input(name="name")
