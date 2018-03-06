@@ -3,7 +3,7 @@
 doctype html
 html
   head
-    link(href="https://fonts.googleapis.com/css?family=Roboto", rel="stylesheet")
+    link(href="https://fonts.googleapis.com/css?family=Roboto:300", rel="stylesheet")
     title= appTitle
     meta(name="viewport", content="width=device-width, initial-scale=1")
     link(rel="stylesheet", href="/css/main.css")
@@ -11,7 +11,8 @@ html
     div(class="header")
       h1= appTitle
       if currentUser
-        span(class="signed-in-id") Signed in as #{currentUser.name}
+        span(class="signed-in-id") Signed in as 
+          span(style="color: var(--header-text-color)") #{currentUser.name}
         span(class="links")
           li
             a(href="/") Home

@@ -1,6 +1,15 @@
+/* Layout ==================================================================*/
+:root {
+  --text-color: rgb(116, 125, 140);
+  --header-text-color: rgb(45, 52, 54);
+  --teal: rgb(26, 188, 156);
+  --yellow: #f7b731;
+  --red: rgb(255, 63, 52);
+}
+
 * {
   font-family: 'Roboto', sans-serif;
-  color: #222f3e
+  color: var(--text-color);
 }
 
 body {
@@ -11,32 +20,83 @@ body {
 h1 {
   margin: 0;
   padding: 0.5em 1em;
+  font-size:36px;
+  color: var(--header-text-color);
 }
 
 .header {
-  background-color: #2bcbba;
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  background:
+    linear-gradient(
+      to right,
+      var(--teal),
+      var(--yellow)
+    )
+    left
+    bottom
+    #f1f2f6
+    no-repeat;
+  background-size:100% 3px ;
 }
 
 .signed-in-id {
+  font-size: 18px;
   padding: 1.5em;
 }
 
 .links {
   display: flex;
   flex-direction: row;
-  padding: 0.5em 0em;
 }
 
 .header li {
-  padding: 1em;
+  display: flex;
+  align-items: center;
+  padding: 1.5em;
+}
+
+.header li a {
+  position: relative;
+  display: block;
+}
+
+.header li a:before, .header li a:after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  top: 100%;
+  margin-top: -0.5px;
+  background: var(--teal);
+}
+
+.header li a:before {
+  left: -2.5px;
+}
+.header li a:after {
+  right: 2.5px;
+  background: var(--teal);
+  transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.header li a:hover:before {
+  background: var(--teal);
+  width: 100%;
+  transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.header li a:hover:after {
+  background: transparent;
+  width: 100%;
+  transition: 0s;
 }
 
 h2 {
   font-size: 40px;
+  color: var(--header-text-color)
 }
 
 li {
@@ -51,6 +111,21 @@ a {
   padding: 1em 2em;
 }
 
+.user {
+  font-size: 32px;
+  color: var(--header-text-color);
+}
+
+.input-field {
+  outline-width: 0;
+  background-color: transparent;
+  border: 0px solid;
+  height: 2em;
+  border-bottom: 1px;
+  border-bottom: 1px solid #808e9b;
+}
+
+/* index.pug styles ========================================================*/
 .input-buttons {
   display: flex;
   flex-direction: row;
@@ -63,51 +138,111 @@ a {
   border-radius: 4px;
   width: 3em;
   margin: 0.5em;
-  border: none;
+  background-color: transparent;
+  border: 0.5px solid var(--teal);
+  color: var(--teal)
 }
 
 .input-buttons input:hover {
-  background-color: #F8EFBA;
+  background-color: rgba(26, 188, 156, 0.05);
 }
 
-
-
-.header li a {
-  position: relative;
-  display: block;
+/* applicants.pug styles ===================================================*/
+.add-applicant :first-child {
+  width: 20em;
+  font-size: 20px;
 }
 
-.header li a:before, .header li a:after {
-  content: '';
-  position: absolute;
-  width: 0%;
-  height: 2px;
-  top: 100%;
-  margin-top: -0.5px;
-  background: #f7b731;
+.add-applicant :nth-child(2) {
+  outline-width: 0;
+  background-color: transparent;
+  border: 0.5px solid var(--teal);
+  font-size: 16px;
+  margin-left: 2em;
+  border-radius: 5px;
+  height: 2.5em;
+  width: 10em;
+  color: var(--teal)
 }
 
-.header li a:before {
-  left: -2.5px;
-}
-.header li a:after {
-  right: 2.5px;
-  background: #f7b731;
-  transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+.add-applicant :nth-child(2):hover {
+  background-color: rgba(26, 188, 156, 0.05);
 }
 
-.header li a:hover:before {
-  background: #f7b731;
-  width: 100%;
-  transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+.action-buttons {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 2em;
+  margin-top: 0.5em;
 }
 
-.header li a:hover:after {
-  background: transparent;
-  width: 100%;
-  transition: 0s;
+.action-buttons * {
+  margin-top: 0.5em;
+  margin-right:1em;
+  border-radius: 5px;
+  background-color: transparent;
+  font-size: 16px;
+  height: 2em;
+  width: 15em;
 }
 
-.users {
-  font-size: 24px;
+.set-curr-app-btn {
+  border: 0.5px solid var(--teal);
+  color: var(--teal);
+}
+
+.set-curr-app-btn:hover {
+  background-color: rgba(26, 188, 156, 0.05);
+}
+
+.remove-btn {
+  width: 8em;
+  border: 0.5px solid var(--red);
+  color: var(--red);
+}
+
+.remove-btn:hover {
+  background-color: rgba(255, 63, 52, 0.05);
+}
+
+.applicant-card {
+  margin-top: 1em;
+  border-bottom: 1px;
+  border-bottom: 1px solid rgba(189, 195, 199, 0.5);
+  max-width: 70em;
+}
+
+.chosen {
+  font-weight: bold;
+  color: var(--teal)
+}
+
+/* users.pug styles ========================================================*/
+.user-card {
+  margin-top: 1em;
+  border-bottom: 1px;
+  border-bottom: 1px solid rgba(189, 195, 199, 0.5);
+  max-width: 70em;
+}
+
+.update-vote-weight {
+  width: 10em;
+  font-size: 14px;
+  margin: 1em 0em;
+}
+
+.update-vote-weight-button {
+  margin-left:1em;
+  margin-bottom: 2em;
+  border-radius: 5px;
+  background-color: transparent;
+  font-size: 12px;
+  height: 2.5em;
+  width: 8em;
+  border: 0.5px solid var(--teal);
+  color: var(--teal);
+}
+
+.update-vote-weight-button:hover {
+  background-color: rgba(26, 188, 156, 0.05);
 }

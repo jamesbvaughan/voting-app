@@ -3,27 +3,33 @@ extends layout
 block content
   div(class="content")
     h2 Applicants
-    ul
+    form(action=`/applicants/add` class='add-applicant')
+      input(class="input-field" name="name", placeholder="Name")
+      input(type="submit", value="+ Add New")
+    br
+    ul(style="padding: 0")
       each applicant in applicants
-        li
+        li(class='applicant-card')
           span
-            span(class="users")= applicant.name
-            if applicant.candidacyScore
-              span &nbsp;&nbsp; (#{applicant.candidacyScore}, #{applicant.nVotes}/#{nActives} voted)
+            if currentApplicant && (applicant._id === currentApplicant._id)
+              span(class="user chosen")= applicant.name 
             else
-              span &nbsp;&nbsp; (No votes yet)
+              span(class="user")= applicant.name
+            if applicant.candidacyScore
+              div(style="font-size: 24px") Score: #{applicant.candidacyScore}
+              div #{applicant.nVotes}/#{nActives} voted
+            else
+              span &emsp;(No votes yet)
           img(src=`/applicant-photos/${applicant._id}.jpg`, height=200)
-          form(action=`/applicants/${applicant._id}/remove`)
-            input(type="submit", value="Remove")
-          if currentApplicant && (applicant._id === currentApplicant._id)
-            button(disabled="true") Current Applicant
-          else 
-            form(action=`/applicants/${applicant._id}/set-current`)
-              input(type="submit", value="Set as Current Applicant")
-          form(method="post", enctype="multipart/form-data", accept="image/*", action=`/applicants/${applicant._id}/upload-photo`)
-            input(type="file", name="photo")
-            input(type="submit", value="Upload Photo")
-    form(action=`/applicants/add`)
-      | Name:
-      input(name="name")
-      input(type="submit", value="Add")
+          div(class="action-buttons")
+            if currentApplicant && (applicant._id === currentApplicant._id)
+              div
+                button(style="border: 0.5px solid #a5b1c2;color:#a5b1c2;" disabled="true") Current Applicant
+            else 
+              form(action=`/applicants/${applicant._id}/set-current`)
+                input(class='set-curr-app-btn' type="submit", value="Set as Current Applicant")
+            form(method="post", enctype="multipart/form-data", accept="image/*", action=`/applicants/${applicant._id}/upload-photo`)
+              input(type="file", name="photo")
+              input(type="submit", value="Upload Photo")
+            form(action=`/applicants/${applicant._id}/remove`)
+              input(class='remove-btn' type="submit", value="Remove Applicant")

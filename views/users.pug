@@ -3,11 +3,13 @@ extends layout
 block content
   div(class="content")
     h2 Users
-    ul
+    ul(style="padding: 0")
       each user in users
-        li
-          span(class="users")= user.name
+        li(class="user-card")
+          span(class="user")= user.name
+          div(style="font-size: 20px") Vote Weight: &nbsp;
+            span(style="color: var(--teal)") #{user.vote_weight}
           form(action=`/users/${user._id}/set-vote-weight`)
-            | Vote weight:
-            input(name="vote_weight", value=user.vote_weight)
-            input(type="submit", value="update")
+            input(class="input-field update-vote-weight" name="vote_weight", placeholder="Update Vote Weight")
+            input(class="update-vote-weight-button" type="submit", value="Update")
+        
