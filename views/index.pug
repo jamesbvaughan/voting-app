@@ -5,11 +5,11 @@ block content
     if currentUser
       if currentApplicant
         h2 We're currently voting on 
-          span(style="color: #0fb9b1") #{currentApplicant.name}
+          span(style="color: rgb(26, 188, 156)") #{currentApplicant.name}
           span .
         if currentVote
           h3 Your vote for #{currentApplicant.name} is 
-            span(style="color: #0fb9b1") #{currentVote.vote}
+            span(style="color: rgb(26, 188, 156)") #{currentVote.vote}
             span .
         else
           h3 You have not voted for #{currentApplicant.name}.
