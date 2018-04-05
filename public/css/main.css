@@ -2,6 +2,7 @@
 :root {
   --text-color: rgb(116, 125, 140);
   --header-text-color: rgb(45, 52, 54);
+  --subheader-color: rgb(87, 101, 116);
   --teal: rgb(26, 188, 156);
   --yellow: #f7b731;
   --red: rgb(255, 63, 52);
@@ -9,6 +10,16 @@
 
 * {
   font-family: 'Roboto', sans-serif;
+  color: var(--text-color);
+}
+
+a {
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+a:hover {
+  text-decoration: none;
   color: var(--text-color);
 }
 
@@ -26,9 +37,6 @@ h1 {
 
 .header {
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   background:
     linear-gradient(
       to right,
@@ -42,20 +50,25 @@ h1 {
   background-size:100% 3px ;
 }
 
-.signed-in-id {
-  font-size: 18px;
-  padding: 1.5em;
+.nav-content {
+  justify-content: flex-end;
 }
 
-.links {
-  display: flex;
-  flex-direction: row;
+
+.signed-in-id {
+  font-size: 16px;
+  padding: 0em 5em 0em 1em;
 }
 
 .header li {
   display: flex;
   align-items: center;
-  padding: 1.5em;
+  padding: 0em 1em;
+}
+
+.app-title {
+  padding: .5em;
+  font-size: 24px;
 }
 
 .header li a {
@@ -96,7 +109,14 @@ h1 {
 
 h2 {
   font-size: 40px;
-  color: var(--header-text-color)
+  color: var(--header-text-color);
+}
+
+h4 {
+  font-size: 16px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  color: var(--subheader-color);
+  margin-bottom: 1em;
 }
 
 li {
@@ -121,6 +141,7 @@ a {
   background-color: transparent;
   border: 0px solid;
   height: 2em;
+  margin-bottom: 1em;
   border-bottom: 1px;
   border-bottom: 1px solid #808e9b;
 }
@@ -158,11 +179,10 @@ a {
   background-color: transparent;
   border: 0.5px solid var(--teal);
   font-size: 16px;
-  margin-left: 2em;
   border-radius: 5px;
   height: 2.5em;
   width: 10em;
-  color: var(--teal)
+  color: var(--teal);
 }
 
 .add-applicant-submit:hover {
@@ -171,11 +191,12 @@ a {
 
 .action-buttons {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   margin-bottom: 2em;
   margin-top: 0.5em;
+  height: 8em;
+  justify-content: space-between;
 }
-
 .action-buttons * {
   margin-top: 0.5em;
   margin-right:1em;
@@ -196,7 +217,6 @@ a {
 }
 
 .remove-btn {
-  width: 8em;
   border: 0.5px solid var(--red);
   color: var(--red);
 }
@@ -245,4 +265,13 @@ a {
 
 .update-vote-weight-button:hover {
   background-color: rgba(26, 188, 156, 0.05);
+}
+
+/* stats.pug styles ========================================================*/
+.toggle-names {
+  color: var(--teal);
+}
+
+.toggle-names:hover {
+  color: var(--teal);
 }

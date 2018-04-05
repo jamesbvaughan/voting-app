@@ -3,19 +3,23 @@ extends layout
 block content
   div(class="content")
     h2 Applicants
+    br
+    h4 ADD NEW APPLICANT
     form(action=`/applicants/add` class='add-applicant')
       input(class="input-field" name="name", placeholder="Name", class="add-applicant-name")
       br
       div
         input(type="radio", name="gender", value="female")
-        | Female
+        | &nbsp;Female&emsp;
         input(type="radio", name="gender", value="male")
-        | Male
+        | &nbsp;Male &emsp;
         input(type="radio", name="gender", value="other")
-        | Other
+        | &nbsp;Other
       br
       input(type="submit", value="+ Add New", class="add-applicant-submit")
     br
+    br
+    h4 APPLICANTS
     ul(style="padding: 0")
       each applicant in applicants
         li(class='applicant-card')
@@ -31,14 +35,15 @@ block content
             else
               span &emsp;(No votes yet)
           div(class="action-buttons")
-            if currentApplicant && (applicant._id === currentApplicant._id)
-              div
-                button(style="border: 0.5px solid #a5b1c2;color:#a5b1c2;" disabled="true") Current Applicant
-            else 
-              form(action=`/applicants/${applicant._id}/set-current`)
-                input(class='set-curr-app-btn' type="submit", value="Set as Current Applicant")
             form(method="post", enctype="multipart/form-data", accept="image/*", action=`/applicants/${applicant._id}/upload-photo`)
               input(type="file", name="photo")
               input(type="submit", value="Upload Photo")
-            form(action=`/applicants/${applicant._id}/remove`)
-              input(class='remove-btn' type="submit", value="Remove Applicant")
+            div(style="display: flex; flex-direction: row")
+              if currentApplicant && (applicant._id === currentApplicant._id)
+                div
+                  button(style="border: 0.5px solid #a5b1c2;color:#a5b1c2;" disabled="true") Current Applicant
+              else 
+                form(action=`/applicants/${applicant._id}/set-current`)
+                  input(class='set-curr-app-btn' type="submit", value="Set as Current Applicant")
+              form(action=`/applicants/${applicant._id}/remove`)
+                input(class='remove-btn' type="submit", value="Remove Applicant")

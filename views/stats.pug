@@ -4,9 +4,9 @@ block content
   div(class="content")
     h2 Stats
     if namesHidden
-      a(href="/stats-with-names") show names
+      a(class="toggle-names" href="/stats-with-names") Show Names
     else
-      a(href="/stats") hide names
+      a(class="toggle-names" href="/stats") Hide Names
     ol(style="padding: 0")
       each applicant, i in applicants
         li

@@ -4,26 +4,39 @@ doctype html
 html
   head
     link(href="https://fonts.googleapis.com/css?family=Roboto:300", rel="stylesheet")
+    link(href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:500", rel="stylesheet")
     title= appTitle
     meta(name="viewport", content="width=device-width, initial-scale=1")
+    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css", integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm", crossorigin="anonymous")
     link(rel="stylesheet", href="/css/main.css")
   body
     div(class="header")
-      h1= appTitle
-      if currentUser
-        span(class="signed-in-id") Signed in as 
-          span(style="color: var(--header-text-color)") #{currentUser.name}
-        span(class="links")
-          li
-            a(href="/") Home
-          if currentUser
-            if currentUser.is_admin
-              li
-                a(href="/users") User List
-              li
-                a(href="/applicants") Applicant List
-              li
-                a(href="/stats") Stats
-            li
-              a(href="/logout") Logout
-    block content
+      nav(class="navbar navbar-expand-lg navbar-light")
+        h1(class="app-title")= appTitle
+        
+        if currentUser
+          button(class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation")
+            span(class="navbar-toggler-icon")
+          div(class="nav-content collapse navbar-collapse" id="navbarSupportedContent")
+            span(class="signed-in-id nav-item") Signed in as 
+              span(style="color: var(--header-text-color)") #{currentUser.name}
+            ul(class="navbar-nav")
+              li(class="nav-item")
+                a(href="/") Home
+              if currentUser
+                if currentUser.is_admin
+                  li(class="nav-item")
+                    a(href="/users") User List
+                  li(class="nav-item")
+                    a(href="/applicants") Applicant List
+                  li(class="nav-item")
+                    a(href="/stats") Stats
+                li(class="nav-item")
+                  a(href="/logout") Logout
+    div(class="container-fluid")
+      div(class="row")
+      block content
+    
+    script(src="https://code.jquery.com/jquery-3.2.1.slim.min.js", integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN", crossorigin="anonymous")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js", integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q", crossorigin="anonymous")
+    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js", integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl", crossorigin="anonymous")
