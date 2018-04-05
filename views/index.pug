@@ -4,6 +4,7 @@ block content
   div(class="content")
     if currentUser
       if currentApplicant
+        img(src=`/applicant-photos/${currentApplicant._id}.jpg`, height=300)
         h2 We're currently voting on 
           span(style="color: rgb(26, 188, 156)") #{currentApplicant.name}
           span .

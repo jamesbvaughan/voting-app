@@ -10,7 +10,8 @@ block content
     ul(style="padding: 0")
       each applicant in applicants
         li(class='applicant-card')
-          span
+          img(src=`/applicant-photos/${applicant._id}.jpg`, height=200)
+          div
             if currentApplicant && (applicant._id === currentApplicant._id)
               span(class="user chosen")= applicant.name 
             else
@@ -20,7 +21,6 @@ block content
               div #{applicant.nVotes}/#{nActives} voted
             else
               span &emsp;(No votes yet)
-          img(src=`/applicant-photos/${applicant._id}.jpg`, height=200)
           div(class="action-buttons")
             if currentApplicant && (applicant._id === currentApplicant._id)
               div

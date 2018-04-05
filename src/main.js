@@ -8,7 +8,7 @@ const fileUpload = require('express-fileupload')
 const db = require('./database.js')
 const slack = require('./slack.js')
 const { ensureAdmin, ensureAuthenticated } = require('./middlewares.js')
-const { stringSort } = require('./helpers.js')
+const { scoreSort, stringSort } = require('./helpers.js')
 const app = express()
 
 
@@ -36,6 +36,7 @@ app.use(session(sessionSettings))
 
 app.use('/users*', ensureAdmin)
 app.use('/applicants*', ensureAdmin)
+app.use('/stats*', ensureAdmin)
 app.use('/app*', ensureAuthenticated)
 
 app.use((req, res, next) => {
@@ -149,6 +150,17 @@ app.post('/applicants/:_id/upload-photo', (req, res) => {
         res.redirect('/applicants')
       })
     }
+  })
+})
+
+app.get('/stats', (req, res) => {
+  db.listApplicants(applicants => {
+    db.listUsers(actives => {
+      res.render('stats', {
+        applicants: scoreSort(applicants),
+        nActives: actives.length,
+      })
+    })
   })
 })
 
