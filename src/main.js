@@ -108,11 +108,14 @@ app.get('/applicants', (req, res) => {
 })
 
 app.get('/applicants/add', (req, res) => {
-  db.addApplicant({ name: req.query.name }, err => res.redirect('/applicants'))
+  db.addApplicant({
+    name: req.query.name,
+    gender: req.query.gender,
+  }, err => res.redirect('/applicants'))
 })
 
 app.get('/applicants/:_id/remove', (req, res) => {
-  if (req.params._id === currentApplicant._id) {
+  if (currentApplicant && req.params._id === currentApplicant._id) {
     currentApplicant = null
   }
   db.removeApplicant(req.params._id, () => res.redirect('/applicants'))
@@ -159,6 +162,19 @@ app.get('/stats', (req, res) => {
       res.render('stats', {
         applicants: scoreSort(applicants),
         nActives: actives.length,
+        namesHidden: true,
+      })
+    })
+  })
+})
+
+app.get('/stats-with-names', (req, res) => {
+  db.listApplicants(applicants => {
+    db.listUsers(actives => {
+      res.render('stats', {
+        applicants: scoreSort(applicants),
+        nActives: actives.length,
+        namesHidden: false,
       })
     })
   })

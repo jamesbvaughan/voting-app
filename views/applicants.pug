@@ -4,8 +4,17 @@ block content
   div(class="content")
     h2 Applicants
     form(action=`/applicants/add` class='add-applicant')
-      input(class="input-field" name="name", placeholder="Name")
-      input(type="submit", value="+ Add New")
+      input(class="input-field" name="name", placeholder="Name", class="add-applicant-name")
+      br
+      div
+        input(type="radio", name="gender", value="female")
+        | Female
+        input(type="radio", name="gender", value="male")
+        | Male
+        input(type="radio", name="gender", value="other")
+        | Other
+      br
+      input(type="submit", value="+ Add New", class="add-applicant-submit")
     br
     ul(style="padding: 0")
       each applicant in applicants

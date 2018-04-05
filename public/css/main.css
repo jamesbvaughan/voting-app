@@ -148,12 +148,12 @@ a {
 }
 
 /* applicants.pug styles ===================================================*/
-.add-applicant :first-child {
+.add-applicant-name {
   width: 20em;
   font-size: 20px;
 }
 
-.add-applicant :nth-child(2) {
+.add-applicant-submit {
   outline-width: 0;
   background-color: transparent;
   border: 0.5px solid var(--teal);
@@ -165,7 +165,7 @@ a {
   color: var(--teal)
 }
 
-.add-applicant :nth-child(2):hover {
+.add-applicant-submit:hover {
   background-color: rgba(26, 188, 156, 0.05);
 }
 
