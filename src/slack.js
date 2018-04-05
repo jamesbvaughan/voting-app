@@ -1,7 +1,8 @@
+require('dotenv').config()
 const qs = require('querystring')
 const fetch = require('node-fetch')
 
-const redirect_uri = 'http://localhost:4000/slack-callback'
+const redirect_uri = process.env.SLACK_REDIRECT_URI
 
 const auth_uri_query = qs.stringify({
   scope: [
