@@ -1,25 +1,28 @@
 extends layout
 
 block content
-  div(class="content")
+  div(class="content row")
     if currentUser
       if currentApplicant
-        img(src=`/applicant-photos/${currentApplicant._id}.jpg`, height=300)
-        h2 We're currently voting on 
-          span(style="color: rgb(26, 188, 156)") #{currentApplicant.name}
-          span .
-        if currentVote
-          h3 Your vote for #{currentApplicant.name} is 
-            span(style="color: rgb(26, 188, 156)") #{currentVote.vote}
+        div(class="col-lg-8")
+          h2 We're currently voting on 
+            span(style="color: rgb(26, 188, 156)") #{currentApplicant.name}
             span .
-        else
-          h3 You have not voted for #{currentApplicant.name}.
-        div(class="input-buttons")
-          for vote in [1, 2, 3, 4, 5]
-            form(action=`/vote`)
-              input(hidden="true", name="applicant_id", value=currentApplicant._id)
-              input(hidden="true", name="vote", value=vote)
-              input(type="submit", value=vote)
+          img(src=`/applicant-photos/${currentApplicant._id}.jpg`, height=300)
+        div(class="col-lg-4")
+          if currentVote
+            h3 Your vote for #{currentApplicant.name} is 
+              span(style="color: rgb(26, 188, 156)") #{currentVote.vote}
+              span .
+          else
+            h3 You have not voted for #{currentApplicant.name}.
+          div(class="input-buttons")
+            for vote in [1, 2, 3, 4, 5]
+              form(action=`/vote`)
+                input(hidden="true", name="applicant_id", value=currentApplicant._id)
+                input(hidden="true", name="vote", value=vote)
+                input(type="submit", value=vote)
+        
     else
       a(href=slackAuthURI)
         img(

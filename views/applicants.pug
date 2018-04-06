@@ -22,28 +22,31 @@ block content
     h4 APPLICANTS
     ul(style="padding: 0")
       each applicant in applicants
-        li(class='applicant-card')
-          img(src=`/applicant-photos/${applicant._id}.jpg`, height=200)
-          div
-            if currentApplicant && (applicant._id === currentApplicant._id)
-              span(class="user chosen")= applicant.name 
-            else
-              span(class="user")= applicant.name
-            if applicant.candidacyScore
-              div(style="font-size: 24px") Score: #{applicant.candidacyScore}
-              div #{applicant.nVotes}/#{nActives} voted
-            else
-              span &emsp;(No votes yet)
-          div(class="action-buttons")
-            form(method="post", enctype="multipart/form-data", accept="image/*", action=`/applicants/${applicant._id}/upload-photo`)
+        li(class="applicant-card row")
+          div(class="col-lg-4")
+            img(src=`/applicant-photos/${applicant._id}.jpg`, height=200)
+            form(style="font-size: 10px" method="post", enctype="multipart/form-data", accept="image/*", action=`/applicants/${applicant._id}/upload-photo`)
               input(type="file", name="photo")
-              input(type="submit", value="Upload Photo")
-            div(style="display: flex; flex-direction: row")
+              div
+                input(type="submit", value="Upload Photo")
+          div(class="col-lg-8")
+            div
               if currentApplicant && (applicant._id === currentApplicant._id)
-                div
-                  button(style="border: 0.5px solid #a5b1c2;color:#a5b1c2;" disabled="true") Current Applicant
-              else 
-                form(action=`/applicants/${applicant._id}/set-current`)
-                  input(class='set-curr-app-btn' type="submit", value="Set as Current Applicant")
-              form(action=`/applicants/${applicant._id}/remove`)
-                input(class='remove-btn' type="submit", value="Remove Applicant")
+                span(class="user chosen")= applicant.name 
+              else
+                span(class="user")= applicant.name
+              if applicant.candidacyScore
+                div(style="font-size: 24px") Score: #{applicant.candidacyScore}
+                div #{applicant.nVotes}/#{nActives} voted
+              else
+                span &emsp;(No votes yet)
+            div(class="action-buttons")
+              div(style="display: flex; flex-direction: row")
+                if currentApplicant && (applicant._id === currentApplicant._id)
+                  div
+                    button(style="border: 0.5px solid #a5b1c2;color:#a5b1c2;" disabled="true") Current Applicant
+                else 
+                  form(action=`/applicants/${applicant._id}/set-current`)
+                    input(class='set-curr-app-btn' type="submit", value="Set as Current Applicant")
+                form(action=`/applicants/${applicant._id}/remove`)
+                  input(class='remove-btn' type="submit", value="Remove Applicant")

@@ -63,7 +63,7 @@ h1 {
 .header li {
   display: flex;
   align-items: center;
-  padding: 0em 1em;
+  padding: 0.5em 1em;
 }
 
 .app-title {
@@ -108,8 +108,12 @@ h1 {
 }
 
 h2 {
-  font-size: 40px;
+  font-size: 32px;
   color: var(--header-text-color);
+}
+
+h3 {
+  font-size: 24px;
 }
 
 h4 {
@@ -149,16 +153,16 @@ a {
 /* index.pug styles ========================================================*/
 .input-buttons {
   display: flex;
-  flex-direction: row;
   width: 100%;
-  justify-content: space-around;
+  align-items: center;
+  padding: 2em 0em;
+  justify-content: space-between;
 }
 
 .input-buttons input {
-  font-size: 40px;
+  font-size: 30px;
   border-radius: 4px;
-  width: 3em;
-  margin: 0.5em;
+  width: 2em;
   background-color: transparent;
   border: 0.5px solid var(--teal);
   color: var(--teal)
@@ -197,6 +201,7 @@ a {
   height: 8em;
   justify-content: space-between;
 }
+
 .action-buttons * {
   margin-top: 0.5em;
   margin-right:1em;
