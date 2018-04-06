@@ -151,25 +151,43 @@ a {
 }
 
 /* index.pug styles ========================================================*/
+.index-content {
+  margin-top: 1em;
+}
+
 .input-buttons {
+  margin-top: 2em;
   display: flex;
-  width: 100%;
-  align-items: center;
-  padding: 2em 0em;
-  justify-content: space-between;
+  flex-direction: row;
+  width: 80%
+}
+
+.input-buttons form {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
 }
 
 .input-buttons input {
-  font-size: 30px;
-  border-radius: 4px;
-  width: 2em;
+  margin-right: .3em;
+  width: 2.5em;
+  height: 2.5em;
+  font-size: 20px;
+  border-radius: 50%;
   background-color: transparent;
   border: 0.5px solid var(--teal);
-  color: var(--teal)
+  color: var(--teal);
 }
 
 .input-buttons input:hover {
   background-color: rgba(26, 188, 156, 0.05);
+}
+
+.applicant-img {
+  margin-top: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* applicants.pug styles ===================================================*/

@@ -1,19 +1,17 @@
 extends layout
 
 block content
-  div(class="content row")
+  div(class="content row index-content")
     if currentUser
       if currentApplicant
-        div(class="col-lg-8")
+        div(class="col-lg-7")
           h2 We're currently voting on 
             span(style="color: rgb(26, 188, 156)") #{currentApplicant.name}
-            span .
-          img(src=`/applicant-photos/${currentApplicant._id}.jpg`, height=300)
-        div(class="col-lg-4")
+            span(style="color: rgb(45, 52, 54)") .
           if currentVote
             h3 Your vote for #{currentApplicant.name} is 
               span(style="color: rgb(26, 188, 156)") #{currentVote.vote}
-              span .
+              span(style="color: rgb(116, 125, 140)") .
           else
             h3 You have not voted for #{currentApplicant.name}.
           div(class="input-buttons")
@@ -22,7 +20,10 @@ block content
                 input(hidden="true", name="applicant_id", value=currentApplicant._id)
                 input(hidden="true", name="vote", value=vote)
                 input(type="submit", value=vote)
-        
+        div(class="col-lg-5 applicant-img")
+          img(src=`/applicant-photos/${currentApplicant._id}.jpg`, height=300)
+
+          
     else
       a(href=slackAuthURI)
         img(
