@@ -22,8 +22,8 @@ block content
                 input(type="submit", value=vote)
         div(class="col-lg-5 applicant-img")
           img(src=`/applicant-photos/${currentApplicant._id}.jpg`)
-
-          
+      else
+        h2 We're not voting on anyone at the moment.
     else
       a(href=slackAuthURI)
         img(

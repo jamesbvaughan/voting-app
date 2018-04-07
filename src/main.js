@@ -67,20 +67,23 @@ app.get('/', (req, res) => {
 app.get('/slack-callback', (req, res) => {
   slack.getAccessToken(req.query.code, data => {
     db.findUserBySlackID(data.user.id, user => {
-      if (!user) {
-        user = {
-          name: data.user.name,
-          slack_user_id: data.user.id,
-          slack_team_id: data.team.id,
-          slack_access_token: data.access_token,
-          vote_weight: 0,
-        }
-
-        db.addUser(user)
+      if (user) {
+        req.session.currentUser = user
+        return res.redirect('/')
       }
 
-      req.session.currentUser = user
-      res.redirect('/')
+      user = {
+        name: data.user.name,
+        slack_user_id: data.user.id,
+        slack_team_id: data.team.id,
+        slack_access_token: data.access_token,
+        vote_weight: 0,
+      }
+
+      db.addUser(user, newUser => {
+        req.session.currentUser = newUser
+        res.redirect('/')
+      })
     })
   })
 })
@@ -141,18 +144,18 @@ app.post('/applicants/:_id/upload-photo', (req, res) => {
   const tmpPath = `public/applicant-photos/tmp.${fileExtension[1]}`
   req.files.photo.mv(tmpPath, err => {
     if (err) {
-      res.status(500).send(err)
-    } else {
-      Jimp.read(tmpPath, (err, photo) => {
-        if (err) {
-          res.status(500).send(err)
-        }
-
-        photo.quality(60).write(`public/applicant-photos/${req.params._id}.jpg`)
-
-        res.redirect('/applicants')
-      })
+      return res.status(500).send(err)
     }
+
+    Jimp.read(tmpPath, (err, photo) => {
+      if (err) {
+        return res.status(500).send(err)
+      }
+
+      photo.quality(60).write(`public/applicant-photos/${req.params._id}.jpg`)
+
+      res.redirect('/applicants')
+    })
   })
 })
 

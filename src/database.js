@@ -7,7 +7,6 @@ class Database {
     this.votes = new Datastore({ filename: 'votes.db', autoload: true })
 
     this.users.ensureIndex({ fieldName: 'slack_user_id', unique: true })
-    this.votes.ensureIndex({ fieldName: 'combined_id', unique: true })
   }
 
   callbackWrapper(callback) {
@@ -70,14 +69,15 @@ class Database {
             votes
               .filter(vote => vote.applicant_id === applicant._id)
               .forEach(vote => {
-                const voteWeight = activeMap[vote.active_id].vote_weight
+                const voteWeight = parseInt(activeMap[vote.active_id].vote_weight)
                 sumVotes += voteWeight * vote.vote
                 nWeightedVotes += voteWeight
                 applicant.nVotes += 1
               })
 
             if (nWeightedVotes > 0) {
-              applicant.candidacyScore = sumVotes / nWeightedVotes
+              const score = sumVotes / nWeightedVotes
+              applicant.candidacyScore = Math.round(score * 100) / 100
             }
 
             return applicant
@@ -87,21 +87,22 @@ class Database {
     })
   }
 
-  addVote(active_id, applicant_id, newVote, callback) {
-    this.votes.findOne({ active_id, applicant_id }, (err, vote) => {
-      if (vote) {
+  addVote(active_id, applicant_id, vote, callback) {
+    const _id = active_id + applicant_id
+    this.votes.findOne({ _id }, (err, oldVote) => {
+      if (oldVote) {
         this.votes.update(
-          { active_id, applicant_id, },
-          { $set: { vote: newVote } },
+          { _id },
+          { $set: { vote } },
           {},
           this.callbackWrapper(callback)
         )
       } else {
         this.votes.insert({
+          _id,
           active_id,
           applicant_id,
-          combined_id: active_id + applicant_id,
-          vote: newVote,
+          vote,
         }, this.callbackWrapper(callback))
       }
     })
