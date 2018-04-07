@@ -310,6 +310,10 @@ a {
   color: var(--teal);
 }
 
+th, td {
+  padding: 10px;
+}
+
 /* media queries ===========================================================*/
 @media only screen and (max-width: 420px) {
     .content {

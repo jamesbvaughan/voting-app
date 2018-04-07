@@ -7,12 +7,23 @@ block content
       a(class="toggle-names" href="/stats-with-names") Show Names
     else
       a(class="toggle-names" href="/stats") Hide Names
-    ol(style="padding: 0")
+    table
+      tr
+        th
+        th Name
+        th Gender
+        th Score
+        th Ones
+        th Actives Voted
       each applicant, i in applicants
-        li
-          | #{i + 1}.&nbsp;
-          if namesHidden
-            | xxx (#{applicant.gender})
-          else
-            | #{applicant.name} (#{applicant.gender})
-          | &nbsp;(#{applicant.candidacyScore})
+        tr
+          th #{i + 1}
+          th
+            if namesHidden
+              | xxx
+            else
+              | #{applicant.name}
+          th= applicant.gender
+          th= applicant.candidacyScore
+          th= applicant.ones
+          th #{applicant.nVotes}/#{nActives}

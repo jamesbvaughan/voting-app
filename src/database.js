@@ -60,6 +60,7 @@ class Database {
             let sumVotes = 0
             let nWeightedVotes = 0
             applicant.nVotes = 0
+            applicant.ones = 0
 
             const activeMap = actives.reduce((map, active) => {
               map[active._id] = active
@@ -73,6 +74,10 @@ class Database {
                 sumVotes += voteWeight * vote.vote
                 nWeightedVotes += voteWeight
                 applicant.nVotes += 1
+
+                if (vote.vote == 1) {
+                  applicant.ones += 1
+                }
               })
 
             if (nWeightedVotes > 0) {
@@ -89,34 +94,26 @@ class Database {
 
   addVote(active_id, applicant_id, vote, callback) {
     const _id = active_id + applicant_id
-    this.votes.findOne({ _id }, (err, oldVote) => {
-      if (oldVote) {
-        this.votes.update(
-          { _id },
-          { $set: { vote } },
-          {},
-          this.callbackWrapper(callback)
-        )
-      } else {
-        this.votes.insert({
-          _id,
-          active_id,
-          applicant_id,
-          vote,
-        }, this.callbackWrapper(callback))
-      }
-    })
+    this.votes.update({ _id }, {
+      _id,
+      active_id,
+      applicant_id,
+      vote,
+    }, {
+      upsert: true,
+    }, this.callbackWrapper(callback))
   }
 
   findVote(active, applicant, callback) {
-    if (active && applicant) {
-      this.votes.findOne({
-        active_id: active._id,
-        applicant_id: applicant._id,
-      }, this.callbackWrapper(callback))
-    } else {
+    if (!active || !applicant) {
       callback(null)
+      return
     }
+
+    this.votes.findOne({
+      active_id: active._id,
+      applicant_id: applicant._id,
+    }, this.callbackWrapper(callback))
   }
 }
 
