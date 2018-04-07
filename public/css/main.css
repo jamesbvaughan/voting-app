@@ -190,6 +190,10 @@ a {
   justify-content: center;
 }
 
+.applicant-img img {
+  width: 80%
+}
+
 /* applicants.pug styles ===================================================*/
 .add-applicant-name {
   width: 20em;
@@ -210,6 +214,13 @@ a {
 .add-applicant-submit:hover {
   background-color: rgba(26, 188, 156, 0.05);
 }
+
+.add-applicant-submit:disabled {
+  border: 0.5px solid #a5b1c2;
+  color: #a5b1c2;
+  pointer-events: none;
+}
+
 
 .action-buttons {
   display: flex;
@@ -297,4 +308,34 @@ a {
 
 .toggle-names:hover {
   color: var(--teal);
+}
+
+/* media queries ===========================================================*/
+@media only screen and (max-width: 420px) {
+    .content {
+        padding: 0.5em 1em;
+    }
+
+    h2 {
+      font-size: 24px;
+    }
+
+    h3 {
+      font-size: 16px;
+    }
+
+    .input-buttons {
+      width: 100%
+    }
+
+    .input-buttons input {
+      width: 2.2em;
+      height: 2.2em;
+      font-size: 20px;
+    }
+
+    .applicant-img * {
+      height: 200
+    }
+
 }
