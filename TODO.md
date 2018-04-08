@@ -10,6 +10,7 @@
   - There could be a few different ways to do this
 - Make the client side update automatically when the admin changes the current person
 - Add a way to change the applicants' gender
+- Add option to remove the current applicant
 
 ## Bugs to fix
 - Current Applicant race condition
