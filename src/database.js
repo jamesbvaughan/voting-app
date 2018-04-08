@@ -80,7 +80,7 @@ class Database {
                 }
               })
 
-            if (nWeightedVotes > 0) {
+            if (nWeightedVotes > 0 && applicant.nVotes > (2 * actives.length / 3)) {
               const score = sumVotes / nWeightedVotes
               applicant.candidacyScore = Math.round(score * 100) / 100
             }

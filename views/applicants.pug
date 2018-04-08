@@ -37,9 +37,9 @@ block content
                 span(class="user")= applicant.name
               if applicant.candidacyScore
                 div(style="font-size: 24px") Score: #{applicant.candidacyScore}
-                div #{applicant.nVotes}/#{nActives} voted
               else
-                span &emsp;(No votes yet)
+                span &emsp;(Not enough votes yet)
+              div #{applicant.nVotes}/#{nActives} voted
             div(class="action-buttons")
               div(style="display: flex; flex-direction: row")
                 if currentApplicant && (applicant._id === currentApplicant._id)
