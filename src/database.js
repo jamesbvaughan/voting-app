@@ -61,6 +61,7 @@ class Database {
             let nWeightedVotes = 0
             applicant.nVotes = 0
             applicant.ones = 0
+            applicant.tooManyOnes = false
 
             const activeMap = actives.reduce((map, active) => {
               map[active._id] = active
@@ -83,6 +84,7 @@ class Database {
             if (nWeightedVotes > 0 && applicant.nVotes > (2 * actives.length / 3)) {
               const score = sumVotes / nWeightedVotes
               applicant.candidacyScore = Math.round(score * 100) / 100
+              applicant.tooManyOnes = applicant.ones >= applicant.nVotes / 4
             }
 
             return applicant

@@ -32,30 +32,31 @@ if (app.get('env') === 'production') {
 }
 
 
-// Middleware Setup ===========================================================
-app.use(session(sessionSettings))
+// Middlewares ================================================================
+const ensureAuthenticated = (req, res, next) =>
+  req.session.currentUser
+    ? next()
+    : res.redirect('/')
 
 const ensureAdmin = (req, res, next) =>
   req.session.currentUser && req.session.currentUser.is_admin
     ? next()
     : res.redirect('/')
 
-app.use('/users*', ensureAdmin)
-app.use('/applicants*', ensureAdmin)
-app.use('/stats*', ensureAdmin)
-
-app.use((req, res, next) => {
+const injectLocals = (req, res, next) => {
   res.locals.currentUser = req.session.currentUser
   res.locals.currentApplicant = currentApplicant
   next()
-})
-
-app.use(express.static('public'))
-
-app.use(fileUpload())
+}
 
 
 // Express setup ==============================================================
+app.use(session(sessionSettings))
+app.use(['/users*', '/applicants*', '/stats*'], ensureAdmin)
+app.use(injectLocals)
+app.use(express.static('public'))
+app.use(fileUpload())
+
 app.set('view engine', 'pug')
 
 
@@ -92,6 +93,8 @@ app.get('/slack-callback', (req, res) => {
     })
   })
 })
+
+app.use('/', ensureAuthenticated)
 
 app.get('/users', (req, res) => {
   db.listUsers(users => res.render('users', { users: stringSort(users) }))

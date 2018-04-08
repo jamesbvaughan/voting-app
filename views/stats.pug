@@ -26,5 +26,8 @@ block content
               | #{applicant.name}
           th= applicant.gender
           th= applicant.candidacyScore
-          th= applicant.ones
+          if applicant.tooManyOnes
+            th(style={color: 'red'})= applicant.ones
+          else
+            th= applicant.ones
           th #{applicant.nVotes}/#{nActives}
