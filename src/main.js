@@ -5,10 +5,11 @@ const fs = require('fs')
 const NedbStore = require('nedb-session-store')(session)
 const Jimp = require('jimp')
 const fileUpload = require('express-fileupload')
+
 const db = require('./database.js')
 const slack = require('./slack.js')
-const { ensureAdmin, ensureAuthenticated } = require('./middlewares.js')
 const { scoreSort, stringSort } = require('./helpers.js')
+
 const app = express()
 
 
@@ -34,10 +35,14 @@ if (app.get('env') === 'production') {
 // Middleware Setup ===========================================================
 app.use(session(sessionSettings))
 
+const ensureAdmin = (req, res, next) =>
+  req.session.currentUser && req.session.currentUser.is_admin
+    ? next()
+    : res.redirect('/')
+
 app.use('/users*', ensureAdmin)
 app.use('/applicants*', ensureAdmin)
 app.use('/stats*', ensureAdmin)
-app.use('/app*', ensureAuthenticated)
 
 app.use((req, res, next) => {
   res.locals.currentUser = req.session.currentUser

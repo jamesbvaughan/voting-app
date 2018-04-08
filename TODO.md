@@ -9,6 +9,7 @@
   - You have to figure out the gender ratio manually
   - There could be a few different ways to do this
 - Make the client side update automatically when the admin changes the current person
+- Add a way to change the applicants' gender
 
 ## Bugs to fix
 - Current Applicant race condition
