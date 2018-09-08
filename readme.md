@@ -6,6 +6,8 @@ This is a simple web app for automating the SEP deliberation voting process.
 
 ### Setup
 
+First, clone the repo and install the dependencies:
+
 ```bash
 $ git clone git@github.com/jamesbvaughan/voting-app.git
 $ cd voting-app
@@ -13,6 +15,7 @@ $ npm install
 ```
 
 Get the `.env` file from james (message @jamesbvaughan on Facebook).
+Then you can start the app:
 
 ```bash
 $ npm start
