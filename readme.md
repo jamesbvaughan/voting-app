@@ -38,6 +38,8 @@ Just message me (jamesbvaughan) and I'll help get you started.
 - Make the client side update automatically when the admin changes the current person
 - Add a way to change the applicants' gender
 - Add option to remove the current applicant
+- Switch from nedb to sqlite3 + an ORM
+  - This should simplify things
 
 ### Bugs to fix
 
